@@ -1,0 +1,1 @@
+quickbms.exe -Y -F "*.c3d" mcrae.bms H:\Games\CMRally unpacked

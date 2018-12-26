@@ -1,0 +1,15 @@
+# Game: Colin McRae Rally (1998) (script 0.1)
+# Description:
+# script to unpack gziped game files
+# Link:
+
+get magic SHORT
+if magic == 35615 # 1F 8B
+    comtype gzip
+    get fn FILENAME
+    get size asize
+    Clog TEMPORARY_FILE 0 size size
+	open "." TEMPORARY_FILE
+    get size asize
+    Math size - 8	
+    Log fn 8 size

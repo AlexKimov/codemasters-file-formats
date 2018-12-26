@@ -1,0 +1,96 @@
+//------------------------------------------------
+//--- 010 Editor v7.0 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+struct {
+  CHAR magic[4]; // CM3D
+  UINT Const; // must be 100
+  UINT Size; // header size (?), offset (?)
+
+  UINT16 Count1;
+  UINT16 Count2;
+  INT Count3;
+ 
+  UINT SectionOffset1;
+  UINT SectionOffset2;
+  UINT SectionOffset3;
+} HEADER <name="File Header">;
+
+typedef struct {
+  UINT Size;
+  BYTE Data[Size - 4];
+} S1 <optimize=false>;
+typedef struct (uint size) {
+  S1 array[size];
+} S1_ARRAY <optimize=false>;
+S1_ARRAY s1array(HEADER.Count1);
+
+typedef struct {
+  CHAR Name[12]; // 12 bytes fixed length
+  UINT Size;
+  UINT16 Count01;
+  UINT16 Count02;
+  BYTE A[28];
+  struct {
+    UINT Unknown;
+    UINT Unknown;    
+    UINT Unknown;   
+    UINT Unknown;   
+    UINT Unknown;   
+    UINT Unknown;   
+    UINT Unknown;   
+    UINT Unknown;   
+  } S3[Count01];
+  struct {
+    UINT Unknown;
+    UINT Unknown;    
+    UINT Unknown;   
+    UINT Unknown;   
+    UINT Unknown;   
+    UINT Unknown;   
+  } S4[Count02];
+} S2 <optimize=false, name=getName>;
+typedef struct (uint size) {
+  S2 array[size];
+} S2_ARRAY <optimize=false>;
+S2_ARRAY s2array(HEADER.Count2);
+
+string getName(S2 &s2)
+{
+  return s2.Name;
+}
+
+struct {
+  struct {
+    uchar Name[12]; // 12 bytes fixed length
+    UINT Size1;
+    uchar Name2[2];
+    UINT Size11;
+    UINT Unknown;
+    UINT Size2;    
+    UINT Unknown;   
+    UINT Unknown;   
+    UINT Unknown;   
+    UINT16 Unknown; 
+    UINT16 Unknown; 
+    UINT Unknown;   
+    UINT Size3;   
+    UINT Unknown;   
+    UINT Unknown;   
+    UINT Unknown;   
+    UINT Unknown;  
+  } HEADER; 
+  BYTE Data[HEADER.Size1 - 54];
+  //BYTE Data0[1024];
+  //BYTE Data1[HEADER.Size3];
+
+} S3[HEADER.Count3] <optimize=false>;
