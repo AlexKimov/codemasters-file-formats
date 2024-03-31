@@ -1,0 +1,16 @@
+# Game: Colin McRae Rally (1998) (script 0.1)
+# Description:
+# script to unpack gziped game files
+# Link:
+
+get files LONG
+get ssize LONG
+get unknown LONG
+
+For i = 0 < files   
+    GetDString name 16
+    get offset LONG
+    get size LONG     
+    XMATH offset "offset + ssize + 12"
+    Log name offset size   
+next i
