@@ -7,10 +7,11 @@ get files LONG
 get ssize LONG
 get unknown LONG
 
-For i = 0 < files   
-    GetDString name 16
+For i = 0 < files    
+    GetDString name 16 
     get offset LONG
-    get size LONG     
-    XMATH offset "offset + ssize + 12"
-    Log name offset size   
+    get size LONG    
+
+    xmath offset "offset + 12 + ssize"
+    Log name offset size    
 next i

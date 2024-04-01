@@ -23,8 +23,6 @@ struct {
 
 local uint i, size;
 
-
-
 for (i = 0; i < Count; i++)
 {
   FSeek(FILEREC[i].Offset + Offset + 12);

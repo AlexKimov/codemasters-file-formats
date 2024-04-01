@@ -1,1 +1,1 @@
-F:\git\qbms\quickbms.exe -D -. -Y -F "*.BFP" toca.bms J:\DATA unpacked
+F:\git\qbms\quickbms.exe -D -. -Y -F "*.BFP" toca.bms C:\Users\Alex\Desktop\tourcar unpacked_toca_tc

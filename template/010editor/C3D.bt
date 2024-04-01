@@ -12,85 +12,95 @@
 //------------------------------------------------
 
 struct {
-  CHAR magic[4]; // CM3D
-  UINT Const; // must be 100
-  UINT Size; // header size (?), offset (?)
+  char magic[4]; // cm3d
+  uint version; // must be 100
+  uint size; 
 
-  UINT16 Count1;
-  UINT16 Count2;
-  INT Count3;
+  uint16 count1;
+  uint16 count2;
+  int texNum;
  
-  UINT SectionOffset1;
-  UINT SectionOffset2;
-  UINT SectionOffset3;
-} HEADER <name="File Header">;
+  uint sectionoffset1;
+  uint sectionoffset2;
+  uint sectionoffset3;
+} header <name="file header">;
 
-typedef struct {
-  UINT Size;
-  BYTE Data[Size - 4];
-} S1 <optimize=false>;
-typedef struct (uint size) {
-  S1 array[size];
-} S1_ARRAY <optimize=false>;
-S1_ARRAY s1array(HEADER.Count1);
+typedef int value <comment=SizeCommentFunc>;
 
-typedef struct {
-  CHAR Name[12]; // 12 bytes fixed length
-  UINT Size;
-  UINT16 Count01;
-  UINT16 Count02;
-  BYTE A[28];
-  struct {
-    UINT Unknown;
-    UINT Unknown;    
-    UINT Unknown;   
-    UINT Unknown;   
-    UINT Unknown;   
-    UINT Unknown;   
-    UINT Unknown;   
-    UINT Unknown;   
-  } S3[Count01];
-  struct {
-    UINT Unknown;
-    UINT Unknown;    
-    UINT Unknown;   
-    UINT Unknown;   
-    UINT Unknown;   
-    UINT Unknown;   
-  } S4[Count02];
-} S2 <optimize=false, name=getName>;
-typedef struct (uint size) {
-  S2 array[size];
-} S2_ARRAY <optimize=false>;
-S2_ARRAY s2array(HEADER.Count2);
+struct vector_4f {
+  value x;
+  value y;
+  value z;
+  value w;
+};
 
-string getName(S2 &s2)
-{
-  return s2.Name;
-}
+struct vector_3f {
+  value x;
+  value y;
+  value z;
+};
+
+struct vector_2f {
+  value u;
+  value v;
+};
 
 struct {
-  struct {
-    uchar Name[12]; // 12 bytes fixed length
-    UINT Size1;
-    uchar Name2[2];
-    UINT Size11;
-    UINT Unknown;
-    UINT Size2;    
-    UINT Unknown;   
-    UINT Unknown;   
-    UINT Unknown;   
-    UINT16 Unknown; 
-    UINT16 Unknown; 
-    UINT Unknown;   
-    UINT Size3;   
-    UINT Unknown;   
-    UINT Unknown;   
-    UINT Unknown;   
-    UINT Unknown;  
-  } HEADER; 
-  BYTE Data[HEADER.Size1 - 54];
-  //BYTE Data0[1024];
-  //BYTE Data1[HEADER.Size3];
+  uint size;
+  uint unk;
 
-} S3[HEADER.Count3] <optimize=false>;
+  vector_4f x;
+  vector_4f y;
+  vector_4f z;
+  vector_4f pos;
+
+  uint unk;
+  uint num;
+  //if (num > 1)
+      //uint16 meshIndex[num];
+  //else if (num == 1)
+      //uint meshIndex;
+  FSkip(size - 80);
+} matrix[header.count1]<optimize=false>;
+
+struct meshes {
+  char name[12]; 
+  uint size;
+  uint16 vertNum;
+  uint16 faceNum;
+  byte empty[28];
+  struct {
+    vector_3f pos;
+    vector_3f normal;
+    vector_2f uv;  
+  } vertex[vertNum];
+  struct {
+    uint16 unknown;
+    uint16 i1;
+    uint16 i2;
+    uint16 i3;  
+    uint16 i4;
+    uint a;
+    uint b;  
+    uint a;
+    uint16 c;
+  } face[faceNum];
+} ;
+
+meshes mesh[header.count2] <optimize=false>;
+
+
+struct textures {
+    uchar name[12];
+    uint size;
+    byte data[size];
+};
+
+textures texture[header.texNum] <optimize=false>;
+
+string SizeCommentFunc( value &s )
+{
+  string ss;
+  SPrintf(ss, "%f", ((s)/65536.0));
+  return ss;
+} 
