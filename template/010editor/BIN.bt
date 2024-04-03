@@ -1,0 +1,95 @@
+//------------------------------------------------
+//--- 010 Editor v14.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+while (!FEof()) {
+  struct { 
+    char code[4];
+    uint size;
+    switch (code) {
+     case "OBJT":
+         if (!size) break;
+         uint vertexNum;
+         uint faceNum;
+         uint unk;
+         uint unk;
+         uint num2;
+         uint num3;
+         uint c;
+         uint d;
+         
+         struct {
+           int16 x;
+           int16 y; 
+           int16 z;
+           int16 w;            
+         } vertex[vertexNum];
+          
+         struct {
+             uint16 size;
+             uint16 num;
+             uint16 num2; 
+             uint unk; 
+             uint16 x;
+             uint16 y;
+             uint16 z;
+                          
+             struct {
+               uint index;
+               uint16 unk;
+               uint16 x;
+               uint16 y;
+               uint16 z; 
+             } index[num];
+         } face[faceNum] <optimize=false>;   
+     break;
+     case "SAMP":
+         if (!size) break;     
+         uint unk;
+         uint unk;
+         uint unk;
+         uint unk;
+         byte data[size - 16];  
+     break;
+     case "PAGE":
+         byte data[size];  
+     break; 
+     case "CARS":
+         uint offset[64];
+     break;
+     case "PALE":
+         byte data[size];
+     break; 
+     case "DUPL":
+         
+     break;    
+     case "IPOS":
+         byte data[size];
+     break; 
+     case "SHAD":
+         byte data[size];
+     break;  
+     case "PSHD":
+         byte data[size];
+     break;
+     case "COLL":
+         byte data[size];
+     break;  
+     case "SHET":
+         byte data[size];
+     break;  
+     case "MARK":
+         byte data[size];
+     break;                    
+    }
+  } file;
+};

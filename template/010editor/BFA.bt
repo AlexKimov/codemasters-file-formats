@@ -1,0 +1,41 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+uint16 num;
+uint16 b;
+uint16 a;
+
+struct {
+  char name[12];
+  uint offset;
+  uint16 code;
+  uint16 a;
+  uint16 b;
+  uint16 c;
+} rec[num];
+
+local uint i;
+
+for (i = 0; i < num; ++i) {
+  FSeek(rec[i].offset + 12 * num);
+  struct {
+    uint size;
+    uint16 width;
+    uint16 height;
+    uint16 num;
+    uint unk;
+    uint16 colorNum;
+    byte pallete[colorNum*4];
+    byte data[width*height];
+  } file;
+}
