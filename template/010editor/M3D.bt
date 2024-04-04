@@ -1,0 +1,100 @@
+//------------------------------------------------
+//--- 010 Editor v7.0 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+struct {
+  char magic[4]; // cm3d
+  uint version; // must be 100
+  uint size; 
+
+  uint16 count1;
+  uint16 count2;
+  int texNum;
+ 
+  uint sectionoffset1;
+  uint sectionoffset2;
+  uint sectionoffset3;
+} header <name="file header">;
+
+typedef int value <comment=SizeCommentFunc>;
+
+struct vector_4f {
+  value x;
+  value y;
+  value z;
+  value w;
+};
+
+struct vector_3f {
+  value x;
+  value y;
+  value z;
+};
+
+struct vector_2f {
+  value u;
+  value v;
+};
+
+struct {
+  uint size;
+  uint unk;
+
+  vector_4f x;
+  vector_4f y;
+  vector_4f z;
+  vector_4f pos;
+
+  uint unk;
+  uint num;
+  FSkip(size - 80);
+} matrix[header.count1]<optimize=false>;
+
+struct meshes {
+  char name[12]; 
+  uint size;
+  uint16 vertNum;
+  uint16 faceNum;
+  byte empty[28];
+  struct {
+    vector_3f pos;
+    vector_3f normal;
+    vector_2f uv;  
+  } vertex[vertNum];
+  struct {
+    uint16 unknown;
+    uint16 i1;
+    uint16 i2;
+    uint16 i3;  
+    uint16 i4;
+    uint a;
+    uint b;  
+    uint a;
+    uint16 c;
+  } face[faceNum];
+} ;
+
+meshes mesh[header.count2] <optimize=false>;
+
+
+struct textures {
+    uchar name[12];
+};
+
+textures texture[header.texNum] <optimize=false>;
+
+string SizeCommentFunc( value &s )
+{
+  string ss;
+  SPrintf(ss, "%f", ((s)/65536.0));
+  return ss;
+} 

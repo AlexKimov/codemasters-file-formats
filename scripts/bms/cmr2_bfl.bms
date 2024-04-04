@@ -1,0 +1,46 @@
+# Game: colin mcrae rally 2 (2000) (script 0.1)
+# Description:
+# script to unpack game files
+# Link:
+
+IDString "\x1F\x8B" # gzip compression
+get size ASIZE
+
+get name BASENAME
+comtype gzip_strict
+
+# unpack .blf file to memory
+log MEMORY_FILE 0 0
+clog MEMORY_FILE 0 SIZE SIZE
+
+get mfsize ASIZE MEMORY_FILE
+#string name + ".cmrp" 
+#log name 0 mfsize MEMORY_FILE
+
+#read cmrp archive and unpack file
+math mfsize -= 4 
+
+CallFunction unpack_cmrp
+
+StartFunction unpack_cmrp
+    IDString MEMORY_FILE "CMPR"
+    get offset long MEMORY_FILE
+    math offset += 4
+    goto offset MEMORY_FILE
+    get offset long MEMORY_FILE
+    math offset += 8
+    goto offset MEMORY_FILE
+
+    math pos = offset
+
+    do 
+        get size long MEMORY_FILE 
+        get offset long MEMORY_FILE 
+	    get length long MEMORY_FILE 
+        xmath length "length + ((-length) % 4)"
+        xmath pos "pos + 12 + length"
+        getdstring name length MEMORY_FILE        
+	    math offset += 8
+        log name offset size MEMORY_FILE  	
+    while pos < mfsize
+EndFunction    

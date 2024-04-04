@@ -1,0 +1,1 @@
+F:\git\qbms\quickbms.exe -d -. -Y -F "*.BFL" cmr2_bfl.bms F:\unpacked\cmr2 unpacked_cmr2

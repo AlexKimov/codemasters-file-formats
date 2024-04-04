@@ -1,0 +1,24 @@
+# Game: TOCA 2 (1998) (script 0.1)
+# Description:
+# script to unpack game files
+# Link:
+
+get fsize ASIZE long
+get name BASENAME long
+set i long 0
+set pos long 0
+set offset long 0
+
+do   
+   get size long
+   math pos += 4
+   math offset += 4
+   string fname = name
+   string fname += i
+   print %fname%
+   Log fname offset size
+   math i += 1  
+   math pos += size
+   math offset += size
+   GoTo pos SEEK_CUR   
+while pos < fsize

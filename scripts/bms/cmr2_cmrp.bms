@@ -1,0 +1,27 @@
+# Game: colin mcrae rally 2 (2000) (script 0.1)
+# Description:
+# script to unpack game files
+# Link:
+
+get mfsize ASIZE MEMORY_FILE
+
+IDString "CMPR"
+get offset long
+math offset += 4
+goto offset
+get offset long
+math offset += 8
+goto offset
+
+math pos = offset
+
+do 
+    get size long 
+    get offset long 
+    get length long 
+    xmath length "length + ((-length) % 4)"
+    xmath pos "pos + 12 + length"
+    getdstring name length        
+    math offset += 8
+    log name offset size  	
+while pos < mfsize
